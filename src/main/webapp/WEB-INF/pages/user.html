@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+</head>
+<body>
+
+<table border="1">
+
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Email</th>
+    </tr>
+
+    <tr>
+        <td th:text="${person.getId()}">Id</td>
+        <td th:text="${person.getName()}">Name</td>
+        <td th:text="${person.getAge()}">Age</td>
+        <td th:text="${person.getEmail()}">Email</td>
+    </tr>
+
+</table>
+
+<br/>
+<hr/>
+
+<a th:href="@{/logout}">Sign Out</a>
+</body>
+</html>
