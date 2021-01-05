@@ -2,10 +2,13 @@ package web.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import web.model.Person;
 import web.service.PersonService;
 
 @Controller
@@ -25,9 +28,9 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/{nameUser}")
-    public String getUserPage( Model model, @PathVariable String nameUser) {
-        model.addAttribute("person", personService.findByName(nameUser));
+    @RequestMapping("/user")
+    public String getUserPage(Model model, @AuthenticationPrincipal Person customUser) {
+        model.addAttribute("person", customUser);
         return "user";
     }
 
