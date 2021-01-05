@@ -28,7 +28,7 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping("/user")
+    @GetMapping("/user")
     public String getUserPage(Model model, @AuthenticationPrincipal Person customUser) {
         model.addAttribute("person", customUser);
         return "user";
