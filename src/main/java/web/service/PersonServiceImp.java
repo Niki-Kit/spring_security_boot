@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import web.dao.PersonDAO;
@@ -27,6 +28,9 @@ public class PersonServiceImp implements PersonService, UserDetailsService {
     @Qualifier("role")
     RoleDAO roleDAO;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     public List<Person> index() {
         return personDAO.findAll();
     }
@@ -38,6 +42,8 @@ public class PersonServiceImp implements PersonService, UserDetailsService {
     @Transactional
     public boolean save(Person person) {
         person.setRoles(Collections.singleton(new Role(2L, "ROLE_USER")));
+        String pass = passwordEncoder.encode(person.getPassword());
+        person.setPassword(pass);
         personDAO.save(person);
         return true;
     }
@@ -47,7 +53,8 @@ public class PersonServiceImp implements PersonService, UserDetailsService {
         personToBeUpdated.setName(updatedPerson.getName());
         personToBeUpdated.setAge(updatedPerson.getAge());
         personToBeUpdated.setEmail(updatedPerson.getEmail());
-        personToBeUpdated.setPassword(updatedPerson.getPassword());
+        String pass= passwordEncoder.encode(updatedPerson.getPassword());
+        personToBeUpdated.setPassword(pass);
     }
     @Transactional
     public void delete(Long  id) {
